@@ -3,6 +3,44 @@
 Aplicación móvil desarrollada en **React Native** (CLI) con soporte para NativeWind (Tailwind CSS para React Native). Permite visualizar y gestionar portafolios de inversión en tiempo real, integrando WebSocket para datos en vivo.
 
 ---
+# � Decisiones técnicas y trade-offs
+
+**Framework:** React Native CLI en vez de Expo, por mayor familiaridad y control nativo. Expo fue descartado por posibles limitaciones y menor experiencia previa.
+
+**Modularidad:** Código estructurado en módulos y hooks reutilizables, siguiendo principios SOLID para facilitar mantenibilidad y escalabilidad.
+
+**Design System:** Sistema propio para colores y estilos, permitiendo consistencia visual y cambios globales sencillos.
+
+**WebSocket Mock:** Mock local para simular datos en tiempo real y facilitar pruebas sin backend.
+
+**Trade-offs y limitaciones:**
+- Control nativo total, pero mayor responsabilidad en dependencias y configuración.
+- NativeWind requiere configuración específica y puede tener incompatibilidades con otras librerías.
+- Performance no optimizado para dispositivos antiguos.
+- Testing y cobertura limitada, sin pruebas E2E ni automatizadas.
+- Sin soporte web ni internacionalización.
+- No hay persistencia local ni manejo avanzado de accesibilidad.
+- Manejo de errores simple, sin recuperación ni logging estructurado.
+- No se integraron herramientas de métricas (NR, analytics, Amplitude, Crashlytics) por foco en arquitectura y UI.
+- No se implementó manejo avanzado de errores (ej: modal/página dedicada) para caídas de WebSocket.
+- No se incluyó icono ni splash screen personalizado.
+- No se realizaron pruebas exhaustivas en Android ni en pantallas secundarias.
+- No se implementó escalado de estilos por tamaño de pantalla (ej: función Scale).
+
+# 🚧 Límites conocidos
+
+- Falta de consideraciones de seguridad (no hay validaciones profundas ni manejo de datos sensibles).
+- Sin integración a herramientas de métricas y seguimiento.
+- Manejo de error limitado: si falla el WebSocket, solo se muestra un mensaje simple.
+- No hay icono ni splash screen personalizado.
+- Archivos de test y pruebas unitarias son mínimos o inexistentes.
+- No se han probado todas las pantallas ni en Android.
+- El escalado de estilos no está optimizado para todos los tamaños de pantalla.
+
+# ⏱️ Tiempo real invertido
+
+**Aproximado:** 7 horas
+
 
 ## 🚀 Características (Features)
 - [x] Visualización de portafolio en tiempo real
