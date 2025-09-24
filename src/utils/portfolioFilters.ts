@@ -50,7 +50,12 @@ function sortPortfolio(
   let sorted = [...items];
   const dir = sortDirection === 'asc' ? 1 : -1;
   if (sortType === 'plPercent') {
-    sorted.sort((a, b) => dir * ((a.plPercent ?? 0) - (b.plPercent ?? 0)));
+    console.log('Sorting by plPercent');
+    sorted.sort((a, b) => {
+      const aVal = typeof a.plPercent === 'number' ? a.plPercent : Number.NEGATIVE_INFINITY;
+      const bVal = typeof b.plPercent === 'number' ? b.plPercent : Number.NEGATIVE_INFINITY;
+      return dir * (aVal - bVal);
+    });
   } else if (sortType === 'weight') {
     sorted.sort((a, b) => dir * ((a.weight ?? 0) - (b.weight ?? 0)));
   } else if (sortType === 'price') {

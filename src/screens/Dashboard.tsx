@@ -1,8 +1,6 @@
 
 import React, { useEffect, useMemo } from 'react';
 import { View, FlatList, Text } from 'react-native';
-
-
 import Header from '../components/Header';
 import DashboardCard from '../components/DashboardCard';
 import PortfolioChartWithSelector from '../components/PortfolioChartWithSelector';
@@ -17,7 +15,7 @@ import { filterAndSortPortfolio } from '../utils/portfolioFilters';
 import { getChartHistory } from '../utils/chartHistory';
 import { getTotalPL, getSelectedPL } from '../utils/portfolioPL';
 import { formatCurrency, getPLClassName } from '../utils/portfolioFormat';
-import { getSafeSortType, getSafePlFilter, sanitizePortfolioItem } from '../utils/dashboardHelpers';
+import { getSafeSortType, getSafePlFilter, sanitizePortfolioItem, sanitizePL, getSafeChartPeriod } from '../utils/dashboardHelpers';
 
 
 
@@ -52,38 +50,19 @@ export default function Dashboard() {
     });
   }, [items, ticker, plFilterMin, plFilterMax, sortType, sortDirection]);
 
+
   type ChartPeriod = '1w' | '1m' | '2m';
   const chartItem = useMemo(() => {
     if (!selectedTicker) return undefined;
     return items.find((item: any) => item.ticker === selectedTicker) || undefined;
   }, [items, selectedTicker]);
-  const safeChartPeriod: ChartPeriod = ['1w', '1m', '2m'].includes(chartPeriod) ? (chartPeriod as ChartPeriod) : '1w';
+  const safeChartPeriod: ChartPeriod = getSafeChartPeriod(chartPeriod);
   const chartHistoryRaw = getChartHistory(chartItem, safeChartPeriod);
   const chartHistory = Array.isArray(chartHistoryRaw) ? chartHistoryRaw.filter((v): v is number => typeof v === 'number' && !isNaN(v)) : [];
 
   // Profit/Loss calculations
-  const totalPL = useMemo(
-    () =>
-      getTotalPL(
-        filteredItems.map(item => ({
-          ...item,
-          pl: item.pl === null ? undefined : item.pl,
-        }))
-      ),
-    [filteredItems]
-  );
-  const selectedPL = useMemo(
-    () =>
-      getSelectedPL(
-        selectedTicker,
-        items.map(item => ({
-          ...item,
-          pl: item.pl === null ? undefined : item.pl,
-        })),
-        totalPL
-      ),
-    [selectedTicker, items, totalPL]
-  );
+  const totalPL = useMemo(() => getTotalPL(filteredItems.map(sanitizePL)), [filteredItems]);
+  const selectedPL = useMemo(() => getSelectedPL(selectedTicker, items.map(sanitizePL), totalPL), [selectedTicker, items, totalPL]);
 
   const profitLossValueForDisplay = useMemo(() => {
     return {
