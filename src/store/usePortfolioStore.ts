@@ -1,9 +1,8 @@
 import { create } from 'zustand';
-import { WebSocketMessage } from '../hooks/useWebSocket';
 
 interface PortfolioState {
-  portfolio: WebSocketMessage[];
-  setPortfolio: (data: WebSocketMessage[]) => void;
+  portfolio: WebSocketMessageEvent[];
+  setPortfolio: (data: WebSocketMessageEvent[]) => void;
 }
 
 export const usePortfolioStore = create<PortfolioState>((set) => ({
