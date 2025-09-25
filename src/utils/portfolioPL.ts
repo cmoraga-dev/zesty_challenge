@@ -1,4 +1,3 @@
-// Utility for calculating totalPL and selectedPL
 export function getTotalPL(items: { ticker: string; pl?: number }[]) {
   return items.reduce((acc, p) => acc + (p.pl ?? 0), 0);
 }

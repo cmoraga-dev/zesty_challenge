@@ -1,4 +1,3 @@
-// Utility hook for sort state in PortfolioFilters
 import React from 'react';
 
 type SortKey = 'plPercent' | 'weight' | 'price';
