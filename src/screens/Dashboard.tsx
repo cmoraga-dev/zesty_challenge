@@ -93,7 +93,7 @@ export default function Dashboard() {
       <FlatList
         className="p-4"
         data={filteredItems}
-  keyExtractor={(_, idx) => String(idx)}
+        keyExtractor={(_, idx) => String(idx)}
         ListHeaderComponent={
           <>
             {[
